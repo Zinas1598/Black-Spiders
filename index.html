@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Black Spider - Login/Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: radial-gradient(ellipse at top left, #232323 0%, #181818 100%);
+      color: #f5f5f5;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    .container {
+      background: rgba(34,34,34,0.98);
+      padding: 2.7rem 2.2rem 2.2rem 2.2rem;
+      margin: 3vh auto;
+      max-width: 400px;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px #000c, 0 1.5px 0 #333 inset;
+      text-align: center;
+      animation: fadeIn 0.8s;
+      position: relative;
+    }
+    .logo {
+      font-size: 3.5rem;
+      margin-bottom: 0.7rem;
+      filter: drop-shadow(0 0 12px #000);
+      user-select: none;
+      animation: spin 2.5s linear infinite alternate;
+      display: inline-block;
+      color: #fff;
+      text-shadow: 0 0 16px #000a;
+    }
+    @keyframes spin {
+      0% { transform: rotate(-10deg);}
+      100% { transform: rotate(10deg);}
+    }
+    h1 {
+      margin-bottom: 1.5rem;
+      letter-spacing: 2px;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-shadow: 0 2px 16px #000a;
+      background: linear-gradient(90deg, #fff 60%, #888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #errorMsg {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+      min-height: 1.5em;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    form input {
+      display: block;
+      width: 92%;
+      margin: 1rem auto;
+      padding: 0.95rem;
+      background: #111;
+      color: #f5f5f5;
+      border: 1.5px solid #444;
+      border-radius: 7px;
+      font-size: 1.13rem;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 8px #0003;
+      font-family: inherit;
+    }
+    form input:focus, form button:focus {
+      outline: 2px solid #888;
+      outline-offset: 2px;
+      border-color: #888;
+      box-shadow: 0 2px 12px #0006;
+    }
+    form button {
+      width: 96%;
+      padding: 1.05rem;
+      margin: 1.2rem 0 0.5rem 0;
+      background: linear-gradient(90deg, #333 60%, #444 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 1.18rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.13s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px #0005;
+      letter-spacing: 1.5px;
+    }
+    form button:hover {
+      background: linear-gradient(90deg, #444 60%, #333 100%);
+      transform: translateY(-2px) scale(1.045);
+      box-shadow: 0 4px 20px #0008;
+    }
+    .toggle-link {
+      color: #aaa;
+      text-decoration: underline;
+      cursor: pointer;
+      display: block;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+    .toggle-link:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    .hidden {
+      display: none;
+    }
+    .footer {
+      margin-top: 2.5rem;
+      font-size: 0.97rem;
+      color: #888;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      border-top: 1px solid #333;
+      padding-top: 1.2rem;
+    }
+    .welcome-container {
+      background: rgba(34,34,34,0.98);
+      padding: 2.7rem 2.2rem 2.2rem 2.2rem;
+      margin: 3vh auto;
+      max-width: 500px;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px #000c, 0 1.5px 0 #333 inset;
+      text-align: center;
+      animation: fadeIn 0.8s;
+      position: relative;
+      display: none;
+    }
+    .welcome-container h1 {
+      font-size: 2.3rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-shadow: 0 2px 16px #000a;
+      background: linear-gradient(90deg, #fff 60%, #888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .welcome-container h2, .welcome-container h3 {
+      color: #e0e0e0;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    .welcome-container button {
+      margin: 0.7rem 0.5rem;
+      padding: 0.9rem 2.2rem;
+      background: linear-gradient(90deg, #333 60%, #444 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1.13rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px #0003;
+      letter-spacing: 1px;
+    }
+    .welcome-container button:hover {
+      background: linear-gradient(90deg, #444 60%, #333 100%);
+      color: #fff;
+      transform: scale(1.06);
+    }
+    .welcome-container footer {
+      margin-top: 2rem;
+      color: #aaa;
+      font-size: 1.05rem;
+      border-top: 1px solid #333;
+      padding-top: 1.2rem;
+      opacity: 0.8;
+    }
+    @media (max-width: 600px) {
+      .welcome-container {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        max-width: 98vw;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <div class="logo">&#128375;</div>
+    <h1>Black Spider</h1>
+    <div id="errorMsg"></div>
+    <form id="loginForm" autocomplete="off">
+      <input type="text" id="loginUser" placeholder="Username" required>
+      <input type="password" id="loginPass" placeholder="Password (4-6 chars)" required minlength="4" maxlength="6">
+      <button type="submit">Login</button>
+      <span class="toggle-link" id="showSignup">Don't have an account? Sign up</span>
+    </form>
+    <form id="signupForm" class="hidden" autocomplete="off">
+      <input type="text" id="signupUser" placeholder="Username" required>
+      <input type="password" id="signupPass" placeholder="Password (4-6 chars)" required minlength="4" maxlength="6">
+      <button type="submit">Sign Up</button>
+      <span class="toggle-link" id="showLogin">Already have an account? Login</span>
+    </form>
+    <div class="footer">
+      &copy; 2025 Black Spider. All rights reserved.
+    </div>
+  </div>
+  <div class="welcome-container" id="welcomeContainer">
+    <h1>WELCOME TO MY WEBSITE !</h1>
+    <h2>Here You Will Find The Latest Updates Of Movies, Cartoons, Past Questions, their Answers and so much more for you and your whole Family</h2>
+    <h3>Click The Button Below To Dive Into The World Of Updates</h3>
+    <p>You Have Successfully Logged In!!!</p>
+    <p>New User: <span id="Newuser"></span></p>
+    <button onclick="logout()">Logout</button>
+    <button onclick="goToVideoSelection()">Go to Video Collection</button>
+    <button onclick="goToImageCollection()">Go to Past Questions Collection</button>
+    <footer>Contact Us For More Updates On Whatsapp: 07045481500</footer>
+  </div>
+  <script>
+    // Toggle forms
+    document.getElementById('showSignup').onclick = function() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('signupForm').classList.remove('hidden');
+      document.getElementById('errorMsg').textContent = '';
+    };
+    document.getElementById('showLogin').onclick = function() {
+      document.getElementById('signupForm').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('errorMsg').textContent = '';
+    };
+
+    // Login logic
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value;
+      if (pass.length < 4 || pass.length > 6) {
+        document.getElementById('errorMsg').textContent = 'Password must be between 4 and 6 characters.';
+        return;
+      }
+      const storedUser = localStorage.getItem('user');
+      const storedPass = localStorage.getItem('pass');
+      if (user === storedUser && pass === storedPass) {
+        document.getElementById('errorMsg').textContent = '';
+        showWelcome(user);
+      } else {
+        document.getElementById('errorMsg').textContent = 'Invalid credentials!';
+      }
+    });
+
+    // Signup logic
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('signupUser').value.trim();
+      const pass = document.getElementById('signupPass').value;
+      if (pass.length < 4 || pass.length > 6) {
+        document.getElementById('errorMsg').textContent = 'Password must be between 4 and 6 characters.';
+        return;
+      }
+      localStorage.setItem('user', user);
+      localStorage.setItem('pass', pass);
+      document.getElementById('errorMsg').textContent = 'Signup successful! Please login.';
+      setTimeout(() => {
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('errorMsg').textContent = '';
+      }, 1200);
+    });
+
+    // Show welcome dashboard with folder navigation
+    function showWelcome(username) {
+      document.getElementById('mainContainer').style.display = 'none';
+      const welcome = document.getElementById('welcomeContainer');
+      welcome.style.display = 'block';
+      document.getElementById('Newuser').textContent = username;
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.clear();
+      location.reload();
+    }
+
+// Go to video selection page
+function goToVideoSelection() {
+  window.open('https://drive.google.com/folderview?id=14DGmiauEnLgAJwxD3kfOonIKhp96K7rq', '_blank');
+}
+
+// Go to image selection page
+function goToImageCollection() {
+  window.open('https://drive.google.com/folderview?id=15pw1q4aBYneD79-uYJQWPeya3mZpUOhO', '_blank');
+}
+S
+  </script>
+</body>
+</html>
